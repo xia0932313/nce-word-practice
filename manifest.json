@@ -1,0 +1,15 @@
+{
+  "name": "新概念单词练习",
+  "short_name": "单词练习",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f6f9fc",
+  "theme_color": "#1e88e5",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
