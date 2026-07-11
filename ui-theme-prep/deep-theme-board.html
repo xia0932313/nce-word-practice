@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Deep UI Theme Board</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: #eef3f5;
+        color: #17212f;
+        font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
+      }
+      .board {
+        width: min(1220px, 100%);
+        margin: 0 auto;
+        padding: 18px;
+      }
+      .theme {
+        --ink: #17212f;
+        --muted: #637281;
+        --line: #d9e4ef;
+        --paper: #fff;
+        --soft: #f7fafc;
+        --primary: #1e88e5;
+        --primary-dark: #1565c0;
+        --gold: #ffc943;
+        --good: #2fbf71;
+        --bad: #ff6b5f;
+        --shadow: 0 18px 48px rgba(31, 60, 92, 0.14);
+        --radius: 8px;
+        --cut: 8px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 22px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--scene), var(--soft);
+        color: var(--ink);
+        box-shadow: var(--shadow);
+      }
+      .wild {
+        --ink: #213426;
+        --muted: #61715d;
+        --line: #b8cfa7;
+        --paper: #fff8df;
+        --soft: #eaf3d5;
+        --primary: #1f8f7a;
+        --primary-dark: #176858;
+        --gold: #f3bd4f;
+        --good: #42a66b;
+        --bad: #cc6248;
+        --scene:
+          radial-gradient(circle at 12% 14%, rgba(243, 189, 79, 0.28), transparent 15rem),
+          linear-gradient(160deg, rgba(31, 143, 122, 0.16), transparent 38%),
+          linear-gradient(180deg, #dff0cf, #eef5db);
+      }
+      .ember {
+        --ink: #2d231b;
+        --muted: #746657;
+        --line: #cfb58c;
+        --paper: #fff2d3;
+        --soft: #ead9b8;
+        --primary: #8c4e2b;
+        --primary-dark: #6c3722;
+        --gold: #e8b75a;
+        --good: #4f7f5b;
+        --bad: #a84c3f;
+        --scene:
+          radial-gradient(circle at 86% 12%, rgba(232, 183, 90, 0.34), transparent 15rem),
+          linear-gradient(135deg, rgba(45, 35, 27, 0.12), transparent 44%),
+          linear-gradient(180deg, #fff2d3, #e8d2aa);
+      }
+      .pocket {
+        --ink: #1d2b3a;
+        --muted: #607488;
+        --line: #bcd8ec;
+        --paper: #ffffff;
+        --soft: #edf8ff;
+        --primary: #2086d7;
+        --primary-dark: #1668aa;
+        --gold: #ffd24f;
+        --good: #35b779;
+        --bad: #f35b58;
+        --radius: 18px;
+        --cut: 14px;
+        --scene:
+          radial-gradient(circle at 14% 16%, rgba(255, 210, 79, 0.34), transparent 11rem),
+          radial-gradient(circle at 89% 18%, rgba(243, 91, 88, 0.16), transparent 10rem),
+          linear-gradient(90deg, rgba(32, 134, 215, 0.08) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(32, 134, 215, 0.08) 1px, transparent 1px),
+          linear-gradient(180deg, #edf8ff, #fff);
+      }
+      .theme-inner { padding: 16px; }
+      .topbar {
+        display: grid;
+        grid-template-columns: minmax(250px, 1fr) minmax(330px, 470px) minmax(190px, 260px);
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .brand,
+      .theme-select,
+      .tabs,
+      .toolbar,
+      .mission,
+      .daily,
+      .question,
+      .side,
+      .mini-section {
+        border: 1px solid var(--line);
+        background: color-mix(in srgb, var(--paper) 90%, transparent);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 76px;
+        padding: 10px;
+      }
+      .wild .brand,
+      .wild .question,
+      .wild .mini-section {
+        border-radius: 8px;
+        background:
+          linear-gradient(135deg, rgba(31, 143, 122, 0.08) 25%, transparent 25% 50%, rgba(31, 143, 122, 0.08) 50% 75%, transparent 75%),
+          var(--paper);
+        background-size: 18px 18px;
+        clip-path: polygon(0 var(--cut), var(--cut) 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+      }
+      .ember .brand,
+      .ember .question,
+      .ember .mini-section {
+        border-radius: 8px 18px 8px 18px;
+        background:
+          linear-gradient(90deg, rgba(140, 78, 43, 0.08) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(140, 78, 43, 0.06) 1px, transparent 1px),
+          var(--paper);
+        background-size: 30px 30px;
+      }
+      .pocket .brand,
+      .pocket .question,
+      .pocket .mini-section {
+        border-radius: 22px;
+        background: var(--paper);
+      }
+      .mark {
+        display: grid;
+        place-items: center;
+        flex: 0 0 auto;
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        background: var(--primary);
+        color: #fff;
+        border: 5px solid color-mix(in srgb, var(--paper) 80%, #fff);
+        box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.12);
+      }
+      .pocket .mark { border-radius: 50%; }
+      .mark svg { width: 34px; height: 34px; }
+      .eyebrow {
+        margin: 0 0 4px;
+        color: var(--primary-dark);
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+      h1, h2, h3, p { margin-top: 0; }
+      h1 { margin-bottom: 0; font-size: 1.6rem; }
+      .tabs {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        padding: 8px;
+        border-radius: var(--radius);
+      }
+      button, select, input {
+        min-height: 42px;
+        border: 0;
+        font: inherit;
+      }
+      .tab,
+      .btn,
+      .field,
+      .choice,
+      .mission-card {
+        position: relative;
+        overflow: hidden;
+      }
+      .tab {
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--muted);
+        padding: 8px 10px;
+        font-weight: 800;
+      }
+      .wild .tab { clip-path: polygon(0 8px, 8px 0, 100% 0, 100% 100%, 0 100%); }
+      .ember .tab { border-radius: 16px 16px 6px 6px; }
+      .pocket .tab { border-radius: 18px 18px 8px 8px; }
+      .tab.active {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: #fff;
+      }
+      .theme-select {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        padding: 8px;
+        border-radius: var(--radius);
+      }
+      .field {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--paper);
+        color: var(--ink);
+        padding: 0 12px;
+      }
+      .wild .field { border-left: 8px solid #b78047; }
+      .ember .field { border-bottom: 4px solid #d0a35a; }
+      .pocket .field { border-radius: 999px; border-left: 18px solid #f35b58; }
+      .toolbar {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        padding: 10px;
+        margin-bottom: 12px;
+        border-radius: var(--radius);
+      }
+      label span {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--muted);
+        font-size: 0.85rem;
+        font-weight: 800;
+      }
+      .mission {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        padding: 10px;
+        margin-bottom: 12px;
+        border-radius: var(--radius);
+        background: color-mix(in srgb, var(--paper) 70%, transparent);
+      }
+      .mission-card {
+        min-height: 88px;
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--ink);
+        padding: 12px;
+        text-align: left;
+      }
+      .mission-card span {
+        display: block;
+        color: var(--muted);
+        font-weight: 800;
+      }
+      .mission-card strong {
+        display: block;
+        margin-top: 14px;
+        font-size: 2rem;
+      }
+      .wild .mission-card:nth-child(1) { clip-path: polygon(0 12px, 12px 0, 100% 0, 100% 100%, 0 100%); }
+      .wild .mission-card:nth-child(2) { border-radius: 50% 8px 8px 8px / 24px 8px 8px 8px; }
+      .wild .mission-card:nth-child(3) { border-style: dashed; }
+      .wild .mission-card:nth-child(4) { clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%); }
+      .ember .mission-card:nth-child(1) { border-radius: 22px 6px 6px 6px; }
+      .ember .mission-card:nth-child(2) { border-left: 10px solid #d0a35a; }
+      .ember .mission-card:nth-child(3) { border-top: 6px solid #4a3d45; }
+      .ember .mission-card:nth-child(4) { border-radius: 6px 6px 22px 6px; }
+      .pocket .mission-card:nth-child(1) { border-radius: 999px 18px 18px 999px; }
+      .pocket .mission-card:nth-child(2) { border-radius: 18px; border-top: 10px solid #ffd24f; }
+      .pocket .mission-card:nth-child(3) { border-radius: 18px; border-right: 12px solid #f35b58; }
+      .pocket .mission-card:nth-child(4) { border-radius: 18px 999px 999px 18px; }
+      .mission-card.active {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: #fff;
+      }
+      .mission-card.active span { color: rgba(255,255,255,0.82); }
+      .daily {
+        display: grid;
+        grid-template-columns: minmax(170px, 280px) 1fr;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 12px;
+        padding: 10px 12px;
+        border-radius: var(--radius);
+      }
+      .meter {
+        height: 16px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--line) 68%, var(--paper));
+      }
+      .meter i {
+        display: block;
+        width: 64%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--good), var(--gold));
+      }
+      .wild .meter i {
+        background: repeating-linear-gradient(90deg, var(--primary) 0 26px, var(--gold) 26px 34px, var(--good) 34px 62px);
+      }
+      .ember .meter i {
+        background: linear-gradient(90deg, #6c3722, #d9823b, var(--gold));
+      }
+      .pocket .meter {
+        padding: 3px;
+        border: 2px solid var(--line);
+        background: #fff;
+      }
+      .pocket .meter i { border-radius: 999px; }
+      .main-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 270px;
+        gap: 12px;
+      }
+      .question {
+        min-height: 460px;
+        padding: 16px;
+      }
+      .question-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+      }
+      h2 { margin-bottom: 0; font-size: 1.75rem; }
+      .sound {
+        display: grid;
+        place-items: center;
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: var(--ink);
+        box-shadow: inset 0 -6px 0 rgba(0,0,0,0.13);
+      }
+      .prompt {
+        display: grid;
+        place-items: center;
+        min-height: 128px;
+        margin: 16px 0 12px;
+        border: 2px solid color-mix(in srgb, var(--primary) 30%, var(--line));
+        background: color-mix(in srgb, var(--paper) 72%, #fff);
+        text-align: center;
+      }
+      .wild .prompt {
+        border-style: double;
+        clip-path: polygon(0 14px, 14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px));
+      }
+      .ember .prompt { border-radius: 8px 26px 8px 26px; }
+      .pocket .prompt {
+        border-radius: 28px;
+        box-shadow: inset 0 -8px 0 rgba(32,134,215,0.08);
+      }
+      .word {
+        display: block;
+        font-size: 3rem;
+        font-weight: 900;
+      }
+      .sub {
+        display: block;
+        margin-top: 8px;
+        color: var(--muted);
+        font-weight: 800;
+      }
+      .choices {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .choice {
+        min-height: 74px;
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--ink);
+        padding: 12px 14px 12px 46px;
+        text-align: left;
+        font-weight: 850;
+      }
+      .choice::before,
+      .choice::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+      }
+      .wild .choice { clip-path: polygon(0 10px, 10px 0, 100% 0, 100% 100%, 0 100%); }
+      .wild .choice::before {
+        left: 12px;
+        top: 20px;
+        width: 18px;
+        height: 28px;
+        background: var(--primary);
+        clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+      }
+      .wild .choice:nth-child(2)::before { background: #b78047; clip-path: circle(50%); }
+      .wild .choice:nth-child(3)::before { background: var(--gold); clip-path: polygon(0 0,100% 0,75% 100%,25% 100%); }
+      .wild .choice:nth-child(4)::before { background: var(--good); clip-path: polygon(50% 0,100% 100%,0 100%); }
+      .ember .choice {
+        border-radius: 14px 6px 14px 6px;
+        border-bottom-width: 4px;
+      }
+      .ember .choice::before {
+        left: 12px;
+        top: 21px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--gold);
+        box-shadow: inset 0 -4px 0 rgba(0,0,0,0.14);
+      }
+      .ember .choice:nth-child(2)::before { background: #77736b; border-radius: 4px; }
+      .ember .choice:nth-child(3)::before { background: #526f4c; clip-path: polygon(50% 0,100% 45%,50% 100%,0 45%); }
+      .ember .choice:nth-child(4)::before { background: #d9823b; clip-path: polygon(50% 0,80% 45%,62% 100%,38% 100%,20% 45%); }
+      .pocket .choice {
+        border-radius: 22px;
+        border-width: 2px;
+        box-shadow: inset 0 -6px 0 rgba(32,134,215,0.06);
+      }
+      .pocket .choice::before {
+        left: 12px;
+        top: 19px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--gold);
+      }
+      .pocket .choice:nth-child(2)::before { background: var(--primary); border-radius: 999px; }
+      .pocket .choice:nth-child(3)::before { background: var(--good); border-radius: 6px; }
+      .pocket .choice:nth-child(4)::before { background: var(--bad); clip-path: polygon(50% 0,100% 100%,0 100%); }
+      .choice.correct {
+        border-color: var(--good);
+        background: color-mix(in srgb, var(--good) 14%, var(--paper));
+      }
+      .choice.wrong {
+        border-color: var(--bad);
+        background: color-mix(in srgb, var(--bad) 12%, var(--paper));
+      }
+      .feedback {
+        min-height: 64px;
+        margin-top: 10px;
+        padding: 12px 14px;
+        border-radius: var(--radius);
+        color: var(--muted);
+        font-weight: 780;
+      }
+      .wild .feedback { border-left: 8px solid var(--primary); background: #edf7e8; }
+      .ember .feedback { border-left: 8px solid #d9823b; background: #fff4dc; }
+      .pocket .feedback { border-left: 12px solid #ffd24f; background: #fff; border-radius: 20px; }
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .btn {
+        padding: 10px 16px;
+        font-weight: 850;
+      }
+      .btn.primary {
+        background: var(--primary);
+        color: #fff;
+      }
+      .btn.secondary {
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--primary-dark);
+      }
+      .wild .btn.primary { clip-path: polygon(0 10px, 10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px)); }
+      .wild .btn.secondary { border-left: 8px solid #b78047; }
+      .ember .btn.primary { border-radius: 6px; box-shadow: inset 0 -5px 0 rgba(0,0,0,0.18); }
+      .ember .btn.secondary { border-radius: 999px 10px 999px 10px; }
+      .pocket .btn.primary { border-radius: 999px; border-right: 18px solid #f35b58; }
+      .pocket .btn.secondary { border-radius: 999px; }
+      .side {
+        display: grid;
+        gap: 10px;
+        padding: 12px;
+        border-radius: var(--radius);
+      }
+      .stat,
+      .reward,
+      .wrong-row,
+      .setting-row,
+      .mini-modal {
+        border: 1px solid var(--line);
+        background: var(--paper);
+      }
+      .stat {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 64px;
+        padding: 10px;
+      }
+      .wild .stat { clip-path: polygon(0 8px, 8px 0, 100% 0, 100% 100%, 0 100%); }
+      .ember .stat { border-radius: 6px 18px 6px 18px; }
+      .pocket .stat { border-radius: 18px; }
+      .stat span { color: var(--muted); font-weight: 800; }
+      .stat strong { font-size: 1.5rem; }
+      .reward {
+        min-height: 100px;
+        padding: 10px;
+        border-radius: var(--radius);
+      }
+      .reward-line {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        gap: 10px;
+        align-items: center;
+      }
+      .reward-icon {
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border-radius: var(--radius);
+        background: color-mix(in srgb, var(--primary) 18%, var(--paper));
+      }
+      .reward-icon svg { width: 30px; height: 30px; }
+      .mini-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1fr;
+        gap: 12px;
+        margin-top: 12px;
+      }
+      .mini-section {
+        padding: 12px;
+      }
+      .mini-section h3 {
+        margin: 0 0 10px;
+        font-size: 1rem;
+      }
+      .wrong-row,
+      .setting-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+        min-height: 48px;
+        margin-bottom: 8px;
+        padding: 8px 10px;
+        border-radius: var(--radius);
+      }
+      .wild .wrong-row { border-left: 8px solid var(--bad); }
+      .ember .wrong-row { border-left: 8px solid #4a3d45; }
+      .pocket .wrong-row { border-left: 12px solid #f35b58; border-radius: 18px; }
+      .chart {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 7px;
+        align-items: end;
+        height: 120px;
+      }
+      .bar {
+        display: grid;
+        align-items: end;
+        height: 100%;
+      }
+      .bar i {
+        display: block;
+        min-height: 12px;
+        border-radius: 8px 8px 2px 2px;
+        background: var(--primary);
+      }
+      .wild .bar i { background: linear-gradient(180deg, var(--gold), var(--primary)); }
+      .ember .bar i { background: linear-gradient(180deg, var(--gold), #8c4e2b); }
+      .pocket .bar i { border-radius: 999px; background: linear-gradient(180deg, #ffd24f, #2086d7); }
+      .mini-modal {
+        min-height: 118px;
+        padding: 10px;
+        border-radius: var(--radius);
+      }
+      .wild .mini-modal { clip-path: polygon(0 14px, 14px 0, 100% 0, 100% 100%, 0 100%); }
+      .ember .mini-modal { border-radius: 24px 8px 24px 8px; }
+      .pocket .mini-modal { border-radius: 22px; box-shadow: inset 0 -8px 0 rgba(32,134,215,0.08); }
+      .muted { color: var(--muted); font-weight: 760; }
+      @media (max-width: 980px) {
+        .topbar,
+        .main-grid,
+        .mini-grid,
+        .mission,
+        .toolbar {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 620px) {
+        .board { padding: 10px; }
+        .tabs,
+        .choices {
+          grid-template-columns: 1fr;
+        }
+        .word { font-size: 2.3rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="board">
+      <section class="theme wild">
+        <div class="theme-inner">
+          <div class="topbar">
+            <div class="brand">
+              <div class="mark" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="13" y="7" width="22" height="34" rx="5" fill="#91a28a"/><path fill="#33a58d" d="m24 16 8 8-8 8-8-8z"/></svg></div>
+              <div><p class="eyebrow">Trial Log</p><h1>荒野遗迹试炼</h1></div>
+            </div>
+            <div class="tabs"><button class="tab active">练习</button><button class="tab">错词本</button><button class="tab">统计</button><button class="tab">设置</button></div>
+            <div class="theme-select"><input class="field" value="荒野学徒"><button class="btn secondary">背包</button></div>
+          </div>
+          <div class="toolbar">
+            <label><span>册数石牌</span><input class="field" value="第一册"></label>
+            <label><span>课次营地</span><input class="field" value="全部课程"></label>
+            <label><span>探索范围</span><input class="field" value="1-20"></label>
+            <label><span>试炼模式</span><input class="field" value="智能分层"></label>
+          </div>
+          <div class="mission"><button class="mission-card active"><span>今日试炼</span><strong>12</strong></button><button class="mission-card"><span>新词采集</span><strong>8</strong></button><button class="mission-card"><span>弱点营地</span><strong>3</strong></button><button class="mission-card"><span>自由探索</span><strong>95</strong></button></div>
+          <div class="daily"><strong>精力进度 19 / 30</strong><div class="meter"><i></i></div></div>
+          <div class="main-grid">
+            <section class="question">
+              <div class="question-head"><div><p class="eyebrow">遗迹手册 · 第 12 课</p><h2>点亮正确符文</h2></div><button class="sound"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M10 22c11-8 18-8 28 0-4 8-8 13-14 19-6-6-10-11-14-19z"/></svg></button></div>
+              <div class="prompt"><span><span class="word">adventure</span><span class="sub">/ədˈventʃə/</span></span></div>
+              <div class="choices"><button class="choice correct">冒险；奇遇</button><button class="choice">安静；沉默</button><button class="choice">地址；住址</button><button class="choice wrong">机器；设备</button></div>
+              <div class="feedback">符文亮起，试炼星石已放入背包。</div>
+              <div class="actions"><button class="btn secondary">换一题</button><button class="btn primary">继续试炼</button></div>
+            </section>
+            <aside class="side"><div class="stat"><span>连对</span><strong>5</strong></div><div class="stat"><span>正确率</span><strong>92%</strong></div><div class="stat"><span>错词</span><strong>3</strong></div><div class="reward"><p class="eyebrow">背包奖励</p><div class="reward-line"><div class="reward-icon"><svg viewBox="0 0 48 48"><path fill="#f3bd4f" d="M24 6c10 8 15 17 12 27-4 7-20 7-24 0C9 23 14 14 24 6z"/></svg></div><div><strong>试炼星石</strong><div class="muted">完成本组解锁</div></div></div></div></aside>
+          </div>
+          <div class="mini-grid"><section class="mini-section"><h3>错词本</h3><div class="wrong-row"><strong>quiet</strong><span>营地小怪</span></div><div class="wrong-row"><strong>address</strong><span>石壳守卫</span></div></section><section class="mini-section"><h3>统计</h3><div class="chart"><div class="bar"><i style="height:48%"></i></div><div class="bar"><i style="height:72%"></i></div><div class="bar"><i style="height:38%"></i></div><div class="bar"><i style="height:90%"></i></div><div class="bar"><i style="height:56%"></i></div><div class="bar"><i style="height:68%"></i></div><div class="bar"><i style="height:82%"></i></div></div></section><section class="mini-section"><h3>设置 / 弹窗</h3><div class="setting-row"><span>每日试炼</span><strong>30</strong></div><div class="mini-modal"><strong>石门账户面板</strong><p class="muted">背包名牌、试炼记录、奖励槽统一。</p></div></section></div>
+        </div>
+      </section>
+
+      <section class="theme ember">
+        <div class="theme-inner">
+          <div class="topbar">
+            <div class="brand">
+              <div class="mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path fill="#e8b75a" d="M24 6c16 8 20 20 14 34H10C4 26 8 14 24 6z"/></svg></div>
+              <div><p class="eyebrow">Quest Journal</p><h1>远征词汇日志</h1></div>
+            </div>
+            <div class="tabs"><button class="tab active">练习</button><button class="tab">错词本</button><button class="tab">统计</button><button class="tab">设置</button></div>
+            <div class="theme-select"><input class="field" value="旅队学徒"><button class="btn secondary">旅队</button></div>
+          </div>
+          <div class="toolbar">
+            <label><span>卷册</span><input class="field" value="第一册"></label>
+            <label><span>路线章</span><input class="field" value="全部课程"></label>
+            <label><span>地图区间</span><input class="field" value="1-20"></label>
+            <label><span>远征模式</span><input class="field" value="智能分层"></label>
+          </div>
+          <div class="mission"><button class="mission-card active"><span>今日远征</span><strong>12</strong></button><button class="mission-card"><span>新词招募</span><strong>8</strong></button><button class="mission-card"><span>暗影清理</span><strong>3</strong></button><button class="mission-card"><span>自由巡游</span><strong>95</strong></button></div>
+          <div class="daily"><strong>路线进度 19 / 30</strong><div class="meter"><i></i></div></div>
+          <div class="main-grid">
+            <section class="question">
+              <div class="question-head"><div><p class="eyebrow">远征地图 · 第 12 课</p><h2>选择正确译文</h2></div><button class="sound"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M25 5c8 11 12 20 4 29 8 4 10 9 7 14H12c-3-5-1-10 7-14-8-9-4-18 6-29z"/></svg></button></div>
+              <div class="prompt"><span><span class="word">adventure</span><span class="sub">/ədˈventʃə/</span></span></div>
+              <div class="choices"><button class="choice correct">冒险；奇遇</button><button class="choice">安静；沉默</button><button class="choice">地址；住址</button><button class="choice wrong">机器；设备</button></div>
+              <div class="feedback">火种点亮，旅队士气提升。</div>
+              <div class="actions"><button class="btn secondary">换一题</button><button class="btn primary">继续远征</button></div>
+            </section>
+            <aside class="side"><div class="stat"><span>连对</span><strong>5</strong></div><div class="stat"><span>正确率</span><strong>92%</strong></div><div class="stat"><span>错词</span><strong>3</strong></div><div class="reward"><p class="eyebrow">徽章盒</p><div class="reward-line"><div class="reward-icon"><svg viewBox="0 0 48 48"><path fill="#e2b65f" d="M10 10h28l5 24-19 10L5 34z"/></svg></div><div><strong>火种徽章</strong><div class="muted">写入远征日志</div></div></div></div></aside>
+          </div>
+          <div class="mini-grid"><section class="mini-section"><h3>错词本</h3><div class="wrong-row"><strong>quiet</strong><span>暗影标记</span></div><div class="wrong-row"><strong>address</strong><span>路线回查</span></div></section><section class="mini-section"><h3>统计</h3><div class="chart"><div class="bar"><i style="height:48%"></i></div><div class="bar"><i style="height:72%"></i></div><div class="bar"><i style="height:38%"></i></div><div class="bar"><i style="height:90%"></i></div><div class="bar"><i style="height:56%"></i></div><div class="bar"><i style="height:68%"></i></div><div class="bar"><i style="height:82%"></i></div></div></section><section class="mini-section"><h3>设置 / 弹窗</h3><div class="setting-row"><span>每日远征</span><strong>30</strong></div><div class="mini-modal"><strong>卷轴账户面板</strong><p class="muted">远征名册、地图记录、徽章盒统一。</p></div></section></div>
+        </div>
+      </section>
+
+      <section class="theme pocket">
+        <div class="theme-inner">
+          <div class="topbar">
+            <div class="brand">
+              <div class="mark" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="22" r="17" fill="#2b91d9"/><circle cx="24" cy="25" r="12" fill="#fff"/></svg></div>
+              <div><p class="eyebrow">Pocket Lab</p><h1>口袋未来练习站</h1></div>
+            </div>
+            <div class="tabs"><button class="tab active">练习</button><button class="tab">错词本</button><button class="tab">统计</button><button class="tab">设置</button></div>
+            <div class="theme-select"><input class="field" value="口袋伙伴"><button class="btn secondary">伙伴</button></div>
+          </div>
+          <div class="toolbar">
+            <label><span>册数胶囊</span><input class="field" value="第一册"></label>
+            <label><span>课次抽屉</span><input class="field" value="全部课程"></label>
+            <label><span>学习区间</span><input class="field" value="1-20"></label>
+            <label><span>实验模式</span><input class="field" value="智能分层"></label>
+          </div>
+          <div class="mission"><button class="mission-card active"><span>今日充能</span><strong>12</strong></button><button class="mission-card"><span>新词胶囊</span><strong>8</strong></button><button class="mission-card"><span>错词修理</span><strong>3</strong></button><button class="mission-card"><span>自由实验</span><strong>95</strong></button></div>
+          <div class="daily"><strong>伙伴电量 19 / 30</strong><div class="meter"><i></i></div></div>
+          <div class="main-grid">
+            <section class="question">
+              <div class="question-head"><div><p class="eyebrow">学习终端 · 第 12 课</p><h2>启动正确答案</h2></div><button class="sound"><svg viewBox="0 0 48 48"><circle cx="24" cy="23" r="15" fill="currentColor"/></svg></button></div>
+              <div class="prompt"><span><span class="word">adventure</span><span class="sub">/ədˈventʃə/</span></span></div>
+              <div class="choices"><button class="choice correct">冒险；奇遇</button><button class="choice">安静；沉默</button><button class="choice">地址；住址</button><button class="choice wrong">机器；设备</button></div>
+              <div class="feedback">星章弹出，伙伴能量 +5。</div>
+              <div class="actions"><button class="btn secondary">换一题</button><button class="btn primary">继续充能</button></div>
+            </section>
+            <aside class="side"><div class="stat"><span>连对</span><strong>5</strong></div><div class="stat"><span>正确率</span><strong>92%</strong></div><div class="stat"><span>错词</span><strong>3</strong></div><div class="reward"><p class="eyebrow">口袋收藏</p><div class="reward-line"><div class="reward-icon"><svg viewBox="0 0 48 48"><path fill="#ffd24f" d="m24 5 5 13 14 1-11 9 4 14-12-8-12 8 4-14-11-9 14-1z"/></svg></div><div><strong>鼓励星章</strong><div class="muted">加入口袋收藏</div></div></div></div></aside>
+          </div>
+          <div class="mini-grid"><section class="mini-section"><h3>错词本</h3><div class="wrong-row"><strong>quiet</strong><span>维修单</span></div><div class="wrong-row"><strong>address</strong><span>胶囊回收</span></div></section><section class="mini-section"><h3>统计</h3><div class="chart"><div class="bar"><i style="height:48%"></i></div><div class="bar"><i style="height:72%"></i></div><div class="bar"><i style="height:38%"></i></div><div class="bar"><i style="height:90%"></i></div><div class="bar"><i style="height:56%"></i></div><div class="bar"><i style="height:68%"></i></div><div class="bar"><i style="height:82%"></i></div></div></section><section class="mini-section"><h3>设置 / 弹窗</h3><div class="setting-row"><span>每日充能</span><strong>30</strong></div><div class="mini-modal"><strong>道具盒账户面板</strong><p class="muted">伙伴资料、学习电量、收藏槽统一。</p></div></section></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+

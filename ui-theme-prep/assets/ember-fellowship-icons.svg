@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="160" viewBox="0 0 960 160" role="img" aria-label="Ember fellowship original icon set">
+  <defs>
+    <style>
+      .line{fill:none;stroke:#342820;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+      .paper{fill:#fff0cd}
+      .ember{fill:#d9823b}
+      .green{fill:#526f4c}
+      .iron{fill:#77736b}
+      .gold{fill:#e2b65f}
+      .shadow{fill:#4a3d45}
+      .red{fill:#9d4b3e}
+    </style>
+  </defs>
+  <g>
+    <rect x="10" y="14" width="136" height="132" rx="12" class="paper"/>
+    <path d="M78 32c28 15 43 42 38 82H40c-5-40 10-67 38-82z" class="green"/>
+    <path d="M58 79h40M63 103c9 8 21 8 30 0M78 49v73" class="line"/>
+    <path d="M40 114h76" class="line"/>
+  </g>
+  <g transform="translate(160)">
+    <rect x="10" y="14" width="136" height="132" rx="12" class="paper"/>
+    <path d="M45 48l31-20 36 20 9 44-24 30H59L35 92z" class="shadow"/>
+    <path d="M55 71h16M88 71h16M64 98c10 6 20 6 30 0" class="line"/>
+    <path d="M34 94l-19 22M122 94l19 22" class="line"/>
+  </g>
+  <g transform="translate(320)">
+    <rect x="10" y="14" width="136" height="132" rx="12" class="paper"/>
+    <path d="M95 25c2 36-16 68-54 96l-16 2 6-15c17-39 39-67 64-83z" class="iron"/>
+    <path d="M56 97l20 21M72 58l29 3" class="line"/>
+    <path d="M29 124l-12 12" class="line"/>
+  </g>
+  <g transform="translate(480)">
+    <rect x="10" y="14" width="136" height="132" rx="12" class="paper"/>
+    <path d="M80 30c18 26 23 43 6 63 18 10 24 24 18 42H52c-6-18 0-32 18-42-17-20-12-37 10-63z" class="ember"/>
+    <path d="M78 42v93M58 94h40M65 66l26 28" class="line"/>
+  </g>
+  <g transform="translate(640)">
+    <rect x="10" y="14" width="136" height="132" rx="12" class="paper"/>
+    <path d="M35 41h76l15 68-48 26-48-26z" class="gold"/>
+    <path d="M51 62h54M56 84h44M62 106h31M78 41v90" class="line"/>
+  </g>
+  <g transform="translate(800)">
+    <rect x="10" y="14" width="136" height="132" rx="12" class="paper"/>
+    <path d="M43 47c27-12 49-12 76 0l-12 69c-20 13-39 13-58 0z" class="red"/>
+    <path d="M57 69h43M54 91h50M64 116l31-69" class="line"/>
+  </g>
+</svg>
+

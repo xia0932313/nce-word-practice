@@ -7,6 +7,7 @@
     <title>新概念单词练习</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme-skins.css">
   </head>
   <body>
     <div class="app-shell">
@@ -23,9 +24,15 @@
         <nav class="tabs" aria-label="主导航">
           <button class="tab active" data-view="practice">练习</button>
           <button class="tab" data-view="wrong">错词本</button>
-          <button class="tab" data-view="stats">统计</button>
-          <button class="tab" data-view="settings">设置</button>
         </nav>
+        <div class="top-spacer" aria-hidden="true"></div>
+        <div class="top-actions">
+          <div class="profile-switcher">
+            <select id="profileSelect" aria-label="选择账户"></select>
+            <button class="secondary" id="manageProfilesButton">账户</button>
+          </div>
+          <button class="secondary settings-shortcut" id="settingsShortcut">设置</button>
+        </div>
       </header>
 
       <main>
@@ -54,12 +61,16 @@
             <label>
               <span>模式</span>
               <select id="modeSelect">
-                <option value="mixed">混合</option>
+                <option value="adaptive">智能分层</option>
+                <option value="mixed">随机混合</option>
                 <option value="enToCn">英文选中文</option>
                 <option value="cnToEn">中文选英文</option>
                 <option value="spell">单词填空</option>
                 <option value="initials">首字母填空</option>
+                <option value="sentence">例句填空</option>
                 <option value="listen">听音选义</option>
+                <option value="dictation">听音拼写</option>
+                <option value="speak">跟读练习</option>
                 <option value="judge">判断对错</option>
               </select>
             </label>
@@ -73,6 +84,37 @@
                 <option value="100">100题</option>
               </select>
             </label>
+          </div>
+
+          <div class="child-coach" id="childCoach">
+            <div class="coach-badge" aria-hidden="true"></div>
+            <div>
+              <strong id="childCoachTitle">今日任务</strong>
+              <span id="childCoachText">先完成一小组，稳稳把单词记住。</span>
+            </div>
+            <div class="coach-actions">
+              <button class="primary" id="startDailyButton">开始今日任务</button>
+              <button class="secondary" id="extendTodayButton" hidden>加练 10 题</button>
+            </div>
+          </div>
+
+          <div class="mission-panel" aria-label="今日任务">
+            <button class="mission-card active" data-study-mode="due">
+              <span>今日复习</span>
+              <strong id="dueTaskCount">0</strong>
+            </button>
+            <button class="mission-card" data-study-mode="new">
+              <span>学新词</span>
+              <strong id="newTaskCount">0</strong>
+            </button>
+            <button class="mission-card" data-study-mode="weak">
+              <span>错词强化</span>
+              <strong id="weakTaskCount">0</strong>
+            </button>
+            <button class="mission-card" data-study-mode="free">
+              <span>自由练习</span>
+              <strong id="freeTaskCount">0</strong>
+            </button>
           </div>
 
           <div class="daily-strip" id="dailyStrip">
@@ -122,6 +164,10 @@
                 <span>本组</span>
                 <strong id="groupCount">0/30</strong>
               </div>
+              <div class="stat-tile">
+                <span>强化</span>
+                <strong id="reinforceCount">0</strong>
+              </div>
               <div class="reward-box">
                 <p class="eyebrow">奖励盒</p>
                 <div id="rewardBox">完成练习后出现</div>
@@ -149,28 +195,66 @@
             </div>
           </div>
           <div class="stats-grid" id="statsGrid"></div>
+          <div class="parent-dashboard">
+            <section class="parent-panel">
+              <div class="panel-head">
+                <h3>今日建议</h3>
+              </div>
+              <div id="parentAdvice"></div>
+            </section>
+            <section class="parent-panel">
+              <div class="panel-head">
+                <h3>近 7 天</h3>
+              </div>
+              <div class="weekly-chart" id="weeklyChart"></div>
+            </section>
+            <section class="parent-panel">
+              <div class="panel-head">
+                <h3>薄弱课次</h3>
+              </div>
+              <div id="weakLessonList"></div>
+            </section>
+            <section class="parent-panel">
+              <div class="panel-head">
+                <h3>薄弱单词</h3>
+              </div>
+              <div id="weakWordList"></div>
+            </section>
+          </div>
           <div class="book-progress" id="bookProgress"></div>
         </section>
 
         <section class="view" id="settingsView">
-          <div class="section-head">
+          <div class="section-head settings-head">
             <div>
               <p class="eyebrow">Settings</p>
               <h2>练习设置</h2>
             </div>
+            <button class="secondary" id="parentStatsButton">家长统计</button>
           </div>
           <div class="settings-grid">
+            <div class="setting-line setting-mode-line">
+              <span>界面模式</span>
+              <div class="mode-switcher setting-mode-switcher" aria-label="界面模式">
+                <button class="mode-button active" data-interface-mode="child">孩子</button>
+                <button class="mode-button" data-interface-mode="parent">家长</button>
+              </div>
+            </div>
+            <label class="setting-line theme-setting-line">
+              <span>界面风格</span>
+              <select data-theme-select aria-label="切换界面风格"></select>
+            </label>
             <label class="setting-line">
               <span>每日至少刷题</span>
               <input id="dailyGoalInput" type="number" min="5" max="300" step="5">
             </label>
             <label class="setting-line">
-              <span>答题后自动朗读</span>
-              <input id="autoSpeakInput" type="checkbox">
+              <span>每日新词数量</span>
+              <input id="dailyNewInput" type="number" min="0" max="100" step="5">
             </label>
             <label class="setting-line">
-              <span>只显示第一册</span>
-              <input id="bookOneOnlyInput" type="checkbox">
+              <span>答题后自动朗读</span>
+              <input id="autoSpeakInput" type="checkbox">
             </label>
           </div>
           <div class="data-actions">
@@ -179,12 +263,56 @@
               导入记录
               <input id="importInput" type="file" accept="application/json">
             </label>
-            <button class="danger" id="resetButton">清空记录</button>
+            <button class="danger" id="resetButton">清空今日记录</button>
+            <button class="danger" id="initializeButton">初始化当前账户</button>
           </div>
         </section>
       </main>
     </div>
 
+    <div class="modal-backdrop" id="groupSummaryModal" hidden>
+      <section class="modal-panel group-summary-panel" aria-label="本组总结">
+        <div class="group-summary-hero">
+          <div class="reward-art group" aria-hidden="true"></div>
+          <div>
+            <p class="eyebrow">Group Complete</p>
+            <h2 id="groupSummaryTitle">本组完成</h2>
+            <p id="groupSummaryAdvice">休息一下，再继续下一组。</p>
+          </div>
+        </div>
+        <div class="summary-metrics" id="groupSummaryStats"></div>
+        <div class="summary-words" id="groupSummaryWords"></div>
+        <div class="modal-actions">
+          <button class="secondary" id="closeGroupSummary">先看看</button>
+          <button class="primary" id="startNextGroupButton">开始下一组</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="profileModal" hidden>
+      <section class="modal-panel" aria-label="账户管理">
+        <div class="section-head modal-head">
+          <div>
+            <p class="eyebrow">Profiles</p>
+            <h2>账户管理</h2>
+          </div>
+          <button class="secondary" id="closeProfileModal">关闭</button>
+        </div>
+        <div class="settings-grid">
+          <label class="setting-line">
+            <span>新建账户</span>
+            <input id="newProfileNameInput" type="text" placeholder="例如 夏天">
+          </label>
+          <button class="primary" id="createProfileButton">新建并切换</button>
+          <label class="setting-line">
+            <span>重命名当前账户</span>
+            <input id="renameProfileInput" type="text">
+          </label>
+          <button class="secondary" id="renameProfileButton">保存名称</button>
+          <div class="profile-list" id="profileList"></div>
+        </div>
+      </section>
+    </div>
     <script src="data/vocabulary.js"></script>
     <script src="app.js"></script>
   </body>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="160" viewBox="0 0 960 160" role="img" aria-label="Pocket future original icon set">
+  <defs>
+    <style>
+      .line{fill:none;stroke:#1c3144;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+      .paper{fill:#ffffff}
+      .blue{fill:#2b91d9}
+      .red{fill:#f35b58}
+      .yellow{fill:#ffd24f}
+      .mint{fill:#55cfa3}
+      .navy{fill:#36536d}
+      .soft{fill:#dff1ff}
+    </style>
+  </defs>
+  <g>
+    <rect x="10" y="14" width="136" height="132" rx="28" class="paper"/>
+    <circle cx="78" cy="76" r="44" class="blue"/>
+    <circle cx="78" cy="82" r="31" class="paper"/>
+    <path d="M61 78h10M85 78h10M67 96c8 7 15 7 23 0" class="line"/>
+    <path d="M78 32v-17M66 120h24" class="line"/>
+    <circle cx="78" cy="16" r="7" class="yellow"/>
+  </g>
+  <g transform="translate(160)">
+    <rect x="10" y="14" width="136" height="132" rx="28" class="paper"/>
+    <path d="M45 55c12-28 53-28 66 0 25 3 34 37 12 52H38c-23-15-15-49 7-52z" class="navy"/>
+    <path d="M56 78h14M88 78h14M65 99c10 5 19 5 28 0" class="line"/>
+    <path d="M39 117l-12 14M116 117l12 14" class="line"/>
+  </g>
+  <g transform="translate(320)">
+    <rect x="10" y="14" width="136" height="132" rx="28" class="paper"/>
+    <path d="M53 42h50l12 45H41z" class="yellow"/>
+    <path d="M58 87h40v31H58z" class="mint"/>
+    <path d="M64 42V29h28v13M47 118h62M78 87v31" class="line"/>
+  </g>
+  <g transform="translate(480)">
+    <rect x="10" y="14" width="136" height="132" rx="28" class="paper"/>
+    <circle cx="78" cy="72" r="35" class="red"/>
+    <path d="M54 72h48M78 48v48" class="line"/>
+    <path d="M47 112c18 13 44 13 62 0" class="line"/>
+  </g>
+  <g transform="translate(640)">
+    <rect x="10" y="14" width="136" height="132" rx="28" class="paper"/>
+    <rect x="39" y="47" width="78" height="66" rx="30" class="soft"/>
+    <path d="M45 80h66M78 47v66M59 59l38 42M97 59l-38 42" class="line"/>
+    <circle cx="42" cy="42" r="9" class="yellow"/>
+    <circle cx="114" cy="118" r="9" class="red"/>
+  </g>
+  <g transform="translate(800)">
+    <rect x="10" y="14" width="136" height="132" rx="28" class="paper"/>
+    <path d="M78 32l13 27 30 4-22 21 6 30-27-15-27 15 6-30-22-21 30-4z" class="yellow"/>
+    <path d="M78 47v45M57 67h42" class="line"/>
+  </g>
+</svg>
+

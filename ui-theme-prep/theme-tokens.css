@@ -1,0 +1,134 @@
+/*
+  Future theme overlay draft.
+  This file is not imported by the current app yet.
+  Intended usage: <body data-ui-theme="wild-kingdom">.
+*/
+
+body {
+  --theme-color: #1e88e5;
+  --theme-bg-layer: linear-gradient(90deg, rgba(30, 136, 229, 0.07) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(30, 136, 229, 0.07) 1px, transparent 1px);
+  --theme-panel-texture: none;
+  --theme-brand-symbol: none;
+}
+
+body[data-ui-theme="wild-kingdom"] {
+  --theme-color: #1f8f7a;
+  --blue-700: #176858;
+  --blue-600: #1f8f7a;
+  --blue-100: #dff4e5;
+  --ink: #213426;
+  --muted: #63715f;
+  --line: #c7d9ba;
+  --paper: #fff8df;
+  --soft: #eaf3d5;
+  --yellow: #f3bd4f;
+  --coral: #cc6248;
+  --green: #42a66b;
+  --shadow: 0 18px 46px rgba(36, 74, 46, 0.18);
+  --theme-bg-layer:
+    radial-gradient(circle at 12% 18%, rgba(243, 189, 79, 0.26), transparent 18rem),
+    linear-gradient(120deg, rgba(31, 143, 122, 0.14), transparent 38%),
+    linear-gradient(180deg, rgba(255, 248, 223, 0.72), rgba(234, 243, 213, 0.96));
+  --theme-panel-texture:
+    linear-gradient(135deg, rgba(31, 143, 122, 0.08) 25%, transparent 25% 50%, rgba(31, 143, 122, 0.08) 50% 75%, transparent 75%);
+}
+
+body[data-ui-theme="ember-fellowship"] {
+  --theme-color: #8c4e2b;
+  --blue-700: #6c3722;
+  --blue-600: #8c4e2b;
+  --blue-100: #f2dec2;
+  --ink: #2d231b;
+  --muted: #76685a;
+  --line: #d0b893;
+  --paper: #fff2d3;
+  --soft: #ead9b8;
+  --yellow: #e8b75a;
+  --coral: #a84c3f;
+  --green: #4f7f5b;
+  --shadow: 0 18px 50px rgba(70, 43, 27, 0.2);
+  --theme-bg-layer:
+    radial-gradient(circle at 86% 10%, rgba(232, 183, 90, 0.28), transparent 16rem),
+    linear-gradient(130deg, rgba(45, 35, 27, 0.10), transparent 42%),
+    linear-gradient(180deg, rgba(255, 242, 211, 0.88), rgba(234, 217, 184, 0.98));
+  --theme-panel-texture:
+    linear-gradient(90deg, rgba(140, 78, 43, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(140, 78, 43, 0.06) 1px, transparent 1px);
+}
+
+body[data-ui-theme="pocket-future"] {
+  --theme-color: #2086d7;
+  --blue-700: #1668aa;
+  --blue-600: #2086d7;
+  --blue-100: #dff1ff;
+  --ink: #1d2b3a;
+  --muted: #627489;
+  --line: #bcd8ec;
+  --paper: #ffffff;
+  --soft: #edf8ff;
+  --yellow: #ffd24f;
+  --coral: #f35b58;
+  --green: #35b779;
+  --shadow: 0 16px 42px rgba(32, 134, 215, 0.16);
+  --theme-bg-layer:
+    radial-gradient(circle at 14% 14%, rgba(255, 210, 79, 0.28), transparent 12rem),
+    radial-gradient(circle at 88% 18%, rgba(243, 91, 88, 0.14), transparent 10rem),
+    linear-gradient(90deg, rgba(32, 134, 215, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(32, 134, 215, 0.08) 1px, transparent 1px);
+  --theme-panel-texture: none;
+}
+
+body[data-ui-theme] {
+  background: var(--theme-bg-layer), var(--soft);
+}
+
+body[data-ui-theme] .question-panel,
+body[data-ui-theme] .side-panel,
+body[data-ui-theme] .section-head,
+body[data-ui-theme] .settings-grid,
+body[data-ui-theme] .data-actions,
+body[data-ui-theme] .mission-card,
+body[data-ui-theme] .daily-strip {
+  background-image: var(--theme-panel-texture);
+  background-size: 18px 18px;
+}
+
+body[data-ui-theme] .brand-mark {
+  border-radius: 8px;
+  transform: rotate(-2deg);
+}
+
+body[data-ui-theme="pocket-future"] .brand-mark {
+  border-radius: 50%;
+  transform: none;
+}
+
+body[data-ui-theme] .tab.active,
+body[data-ui-theme] .primary,
+body[data-ui-theme] .mission-card.active {
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.10);
+}
+
+body[data-ui-theme="wild-kingdom"] .prompt-box {
+  border-style: double;
+}
+
+body[data-ui-theme="ember-fellowship"] .prompt-box {
+  border-width: 3px;
+  background:
+    linear-gradient(90deg, rgba(140, 78, 43, 0.08) 1px, transparent 1px),
+    #fff5dc;
+}
+
+body[data-ui-theme="pocket-future"] .tab,
+body[data-ui-theme="pocket-future"] .secondary,
+body[data-ui-theme="pocket-future"] .primary,
+body[data-ui-theme="pocket-future"] .danger,
+body[data-ui-theme="pocket-future"] .import-button,
+body[data-ui-theme="pocket-future"] select,
+body[data-ui-theme="pocket-future"] input[type="number"],
+body[data-ui-theme="pocket-future"] input[type="text"],
+body[data-ui-theme="pocket-future"] .choice {
+  border-radius: 14px;
+}

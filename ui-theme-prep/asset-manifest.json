@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "note": "Original placeholder assets for future UI theme integration. These files are not wired into the current app.",
+  "themes": {
+    "wild-kingdom": {
+      "label": "荒野遗迹",
+      "background": "assets/wild-kingdom-bg.svg",
+      "icons": "assets/wild-kingdom-icons.svg",
+      "slots": {
+        "brand": "glowing rune stone",
+        "character": "wilderness learner",
+        "monster": "camp imp",
+        "weapon": "bronze short blade",
+        "tool": "rune tablet",
+        "reward": "trial star stone"
+      },
+      "status": "svg draft; can be replaced by generated bitmap art later"
+    },
+    "ember-fellowship": {
+      "label": "远征史诗",
+      "background": "assets/ember-fellowship-bg.svg",
+      "icons": "assets/ember-fellowship-icons.svg",
+      "slots": {
+        "brand": "fellowship crest",
+        "character": "cloak learner",
+        "monster": "shadow mask minion",
+        "weapon": "leaf shaped blade",
+        "tool": "ancient map",
+        "reward": "ember badge"
+      },
+      "status": "svg draft; can be replaced by generated bitmap art later"
+    },
+    "pocket-future": {
+      "label": "口袋未来",
+      "background": "assets/pocket-future-bg.svg",
+      "icons": "assets/pocket-future-icons.svg",
+      "slots": {
+        "brand": "pocket star badge",
+        "character": "round study buddy",
+        "monster": "mistake shadow",
+        "weapon": "repair wrench",
+        "tool": "memory lamp",
+        "reward": "encouragement star"
+      },
+      "status": "svg draft; can be replaced by generated bitmap art later"
+    }
+  }
+}
+

@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UI Theme Preview</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --accent: #1e88e5;
+        --accent-strong: #1565c0;
+        --accent-soft: #e3f2fd;
+        --ink: #17212f;
+        --muted: #64748b;
+        --line: #d9e4ef;
+        --paper: #ffffff;
+        --soft: #f6f9fc;
+        --gold: #ffc943;
+        --bad: #ff6b5f;
+        --good: #2fbf71;
+        --shadow: 0 18px 50px rgba(31, 60, 92, 0.14);
+        --radius: 8px;
+        --texture: none;
+        --backdrop:
+          linear-gradient(90deg, rgba(30, 136, 229, 0.07) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(30, 136, 229, 0.07) 1px, transparent 1px);
+      }
+
+      [data-theme="wild-kingdom"] {
+        --accent: #1f8f7a;
+        --accent-strong: #176858;
+        --accent-soft: #dff4e5;
+        --ink: #213426;
+        --muted: #63715f;
+        --line: #c7d9ba;
+        --paper: #fff8df;
+        --soft: #eaf3d5;
+        --gold: #f3bd4f;
+        --bad: #cc6248;
+        --good: #42a66b;
+        --shadow: 0 18px 46px rgba(36, 74, 46, 0.18);
+        --texture: linear-gradient(135deg, rgba(31, 143, 122, 0.08) 25%, transparent 25% 50%, rgba(31, 143, 122, 0.08) 50% 75%, transparent 75%);
+        --backdrop:
+          radial-gradient(circle at 14% 16%, rgba(243, 189, 79, 0.26), transparent 16rem),
+          linear-gradient(120deg, rgba(31, 143, 122, 0.14), transparent 38%),
+          linear-gradient(180deg, rgba(255, 248, 223, 0.72), rgba(234, 243, 213, 0.96));
+      }
+
+      [data-theme="ember-fellowship"] {
+        --accent: #8c4e2b;
+        --accent-strong: #6c3722;
+        --accent-soft: #f2dec2;
+        --ink: #2d231b;
+        --muted: #76685a;
+        --line: #d0b893;
+        --paper: #fff2d3;
+        --soft: #ead9b8;
+        --gold: #e8b75a;
+        --bad: #a84c3f;
+        --good: #4f7f5b;
+        --shadow: 0 18px 50px rgba(70, 43, 27, 0.2);
+        --texture:
+          linear-gradient(90deg, rgba(140, 78, 43, 0.08) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(140, 78, 43, 0.06) 1px, transparent 1px);
+        --backdrop:
+          radial-gradient(circle at 84% 12%, rgba(232, 183, 90, 0.28), transparent 16rem),
+          linear-gradient(130deg, rgba(45, 35, 27, 0.10), transparent 42%),
+          linear-gradient(180deg, rgba(255, 242, 211, 0.88), rgba(234, 217, 184, 0.98));
+      }
+
+      [data-theme="pocket-future"] {
+        --accent: #2086d7;
+        --accent-strong: #1668aa;
+        --accent-soft: #dff1ff;
+        --ink: #1d2b3a;
+        --muted: #627489;
+        --line: #bcd8ec;
+        --paper: #ffffff;
+        --soft: #edf8ff;
+        --gold: #ffd24f;
+        --bad: #f35b58;
+        --good: #35b779;
+        --shadow: 0 16px 42px rgba(32, 134, 215, 0.16);
+        --radius: 14px;
+        --backdrop:
+          radial-gradient(circle at 14% 14%, rgba(255, 210, 79, 0.28), transparent 12rem),
+          radial-gradient(circle at 88% 18%, rgba(243, 91, 88, 0.14), transparent 10rem),
+          linear-gradient(90deg, rgba(32, 134, 215, 0.08) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(32, 134, 215, 0.08) 1px, transparent 1px);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--backdrop), var(--soft);
+        background-size: auto, auto, 28px 28px, 28px 28px;
+        color: var(--ink);
+        font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
+      }
+
+      button,
+      select,
+      input {
+        font: inherit;
+      }
+
+      button {
+        border: 0;
+        cursor: pointer;
+      }
+
+      .shell {
+        width: min(1180px, 100%);
+        margin: 0 auto;
+        padding: 18px;
+      }
+
+      .theme-switcher {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .theme-switcher button,
+      .tab,
+      .primary,
+      .secondary,
+      select,
+      input,
+      .choice {
+        min-height: 44px;
+        border-radius: var(--radius);
+      }
+
+      .theme-switcher button {
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--accent-strong);
+        padding: 10px 14px;
+        font-weight: 800;
+      }
+
+      .theme-switcher button[aria-pressed="true"] {
+        border-color: var(--accent);
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .topbar {
+        display: grid;
+        grid-template-columns: minmax(240px, 1fr) minmax(320px, 480px) minmax(220px, 300px);
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 58px;
+        height: 58px;
+        border-radius: var(--radius);
+        background: var(--accent);
+        border: 5px solid var(--paper);
+        box-shadow: var(--shadow);
+      }
+
+      [data-theme="default"] .brand-mark {
+        border-radius: 50%;
+      }
+
+      .brand-mark svg {
+        width: 36px;
+        height: 36px;
+      }
+
+      .eyebrow {
+        margin: 0 0 4px;
+        color: var(--accent-strong);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin-bottom: 0;
+        font-size: 2rem;
+      }
+
+      h2 {
+        margin-bottom: 0;
+        font-size: 2.1rem;
+        line-height: 1.2;
+      }
+
+      .tabs {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(72px, 1fr));
+        gap: 8px;
+      }
+
+      .tab {
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--muted);
+        padding: 10px 12px;
+        font-weight: 800;
+      }
+
+      .tab.active {
+        border-color: var(--accent);
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 8px 0 rgba(0, 0, 0, 0.10);
+      }
+
+      .profile-switcher {
+        display: grid;
+        grid-template-columns: minmax(120px, 1fr) auto;
+        gap: 8px;
+      }
+
+      select,
+      input {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--ink);
+        padding: 0 12px;
+      }
+
+      .toolbar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      label {
+        color: var(--muted);
+        font-weight: 800;
+      }
+
+      label span {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.85rem;
+      }
+
+      .mission-panel {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(120px, 1fr));
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .mission-card,
+      .daily-strip,
+      .question-panel,
+      .side-panel,
+      .stat-tile,
+      .reward-box,
+      .asset-card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--texture), rgba(255, 255, 255, 0.92);
+        background-size: 18px 18px;
+        box-shadow: var(--shadow);
+      }
+
+      .mission-card {
+        display: grid;
+        min-height: 86px;
+        padding: 12px;
+        color: var(--ink);
+        text-align: left;
+      }
+
+      .mission-card span {
+        color: var(--muted);
+        font-weight: 850;
+      }
+
+      .mission-card strong {
+        align-self: end;
+        font-size: 2.2rem;
+      }
+
+      .mission-card.active {
+        border-color: var(--accent);
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .mission-card.active span {
+        color: rgba(255, 255, 255, 0.84);
+      }
+
+      .daily-strip {
+        display: grid;
+        grid-template-columns: minmax(180px, 300px) 1fr;
+        gap: 14px;
+        align-items: center;
+        padding: 12px 14px;
+        margin-bottom: 12px;
+      }
+
+      .meter {
+        height: 14px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--line) 72%, var(--paper));
+      }
+
+      .meter i {
+        display: block;
+        width: 64%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--accent), var(--good), var(--gold));
+      }
+
+      .practice-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 250px;
+        gap: 14px;
+        align-items: start;
+      }
+
+      .question-panel {
+        min-height: 520px;
+        padding: 22px;
+      }
+
+      .question-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .icon-button {
+        display: grid;
+        place-items: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: var(--ink);
+        box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.12);
+      }
+
+      .prompt-box {
+        display: grid;
+        place-items: center;
+        min-height: 154px;
+        margin: 22px 0 16px;
+        padding: 20px;
+        border: 2px solid var(--accent-soft);
+        border-radius: var(--radius);
+        background: color-mix(in srgb, var(--paper) 82%, var(--accent-soft));
+        text-align: center;
+      }
+
+      [data-theme="wild-kingdom"] .prompt-box {
+        border-style: double;
+      }
+
+      [data-theme="ember-fellowship"] .prompt-box {
+        border-width: 3px;
+      }
+
+      .prompt-main {
+        display: block;
+        overflow-wrap: anywhere;
+        font-size: 3.2rem;
+        font-weight: 900;
+        line-height: 1.12;
+      }
+
+      .prompt-sub {
+        display: block;
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 1.15rem;
+        line-height: 1.35;
+      }
+
+      .choice-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .choice {
+        min-height: 74px;
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--ink);
+        padding: 12px 14px;
+        text-align: left;
+        font-weight: 850;
+        line-height: 1.35;
+      }
+
+      .choice.correct {
+        border-color: var(--good);
+        background: color-mix(in srgb, var(--good) 14%, var(--paper));
+      }
+
+      .choice.wrong {
+        border-color: var(--bad);
+        background: color-mix(in srgb, var(--bad) 14%, var(--paper));
+      }
+
+      .feedback {
+        min-height: 74px;
+        margin-top: 10px;
+        padding: 12px 14px;
+        border-radius: var(--radius);
+        background: color-mix(in srgb, var(--accent-soft) 45%, var(--paper));
+        color: var(--muted);
+        font-weight: 780;
+        line-height: 1.45;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .primary,
+      .secondary {
+        padding: 11px 16px;
+        font-weight: 800;
+      }
+
+      .primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .secondary {
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--accent-strong);
+      }
+
+      .side-panel {
+        display: grid;
+        gap: 10px;
+        padding: 14px;
+      }
+
+      .stat-tile {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 74px;
+        padding: 12px;
+        box-shadow: none;
+      }
+
+      .stat-tile span {
+        color: var(--muted);
+        font-weight: 800;
+      }
+
+      .stat-tile strong {
+        font-size: 1.7rem;
+      }
+
+      .reward-box {
+        min-height: 120px;
+        padding: 12px;
+        box-shadow: none;
+      }
+
+      .reward-line {
+        display: grid;
+        grid-template-columns: 58px 1fr;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .reward-icon,
+      .asset-icon {
+        display: grid;
+        place-items: center;
+        border-radius: var(--radius);
+        background: var(--accent-soft);
+        min-height: 58px;
+      }
+
+      .reward-icon svg,
+      .asset-icon svg {
+        width: 40px;
+        height: 40px;
+      }
+
+      .asset-strip {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .asset-card {
+        display: grid;
+        grid-template-columns: 58px 1fr;
+        gap: 10px;
+        align-items: center;
+        padding: 10px;
+        box-shadow: none;
+      }
+
+      .asset-card strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .asset-card span,
+      .reward-line span {
+        color: var(--muted);
+        font-size: 0.92rem;
+        font-weight: 760;
+      }
+
+      @media (max-width: 900px) {
+        .topbar,
+        .practice-grid,
+        .daily-strip,
+        .mission-panel,
+        .asset-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .side-panel {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .reward-box {
+          grid-column: 1 / -1;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .shell {
+          padding: 12px;
+        }
+
+        .tabs,
+        .choice-grid,
+        .side-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .question-panel {
+          min-height: auto;
+          padding: 16px;
+        }
+
+        .question-head {
+          align-items: flex-start;
+        }
+
+        .prompt-main {
+          font-size: 2.25rem;
+        }
+
+        .actions {
+          flex-direction: column-reverse;
+        }
+
+        .actions button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body data-theme="default">
+    <div class="shell">
+      <div class="theme-switcher" aria-label="界面风格">
+        <button type="button" data-set-theme="default" aria-pressed="true">默认</button>
+        <button type="button" data-set-theme="wild-kingdom" aria-pressed="false">荒野遗迹</button>
+        <button type="button" data-set-theme="ember-fellowship" aria-pressed="false">远征史诗</button>
+        <button type="button" data-set-theme="pocket-future" aria-pressed="false">口袋未来</button>
+      </div>
+
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true" id="brandMark"></div>
+          <div>
+            <p class="eyebrow" id="themeEyebrow">New Concept Words</p>
+            <h1 id="themeTitle">新概念单词练习</h1>
+          </div>
+        </div>
+        <nav class="tabs" aria-label="主导航">
+          <button class="tab active" type="button">练习</button>
+          <button class="tab" type="button">错词本</button>
+          <button class="tab" type="button">统计</button>
+          <button class="tab" type="button">设置</button>
+        </nav>
+        <div class="profile-switcher">
+          <select aria-label="选择账户">
+            <option>小小学习者</option>
+          </select>
+          <button class="secondary" type="button">账户</button>
+        </div>
+      </header>
+
+      <main>
+        <div class="toolbar">
+          <label>
+            <span>册数</span>
+            <select><option>第一册</option></select>
+          </label>
+          <label>
+            <span>课次</span>
+            <select><option>全部课程</option></select>
+          </label>
+          <label>
+            <span>课次区间</span>
+            <input type="text" value="1-20">
+          </label>
+          <label>
+            <span>模式</span>
+            <select><option>智能分层</option></select>
+          </label>
+        </div>
+
+        <div class="mission-panel" id="missionPanel"></div>
+
+        <div class="daily-strip">
+          <div>
+            <strong id="dailyTitle">今日进度</strong>
+            <span>19 / 30</span>
+          </div>
+          <div class="meter" aria-hidden="true"><i></i></div>
+        </div>
+
+        <div class="practice-grid">
+          <section class="question-panel">
+            <div class="question-head">
+              <div>
+                <p class="eyebrow" id="questionMeta">Book 1 · Lesson 12</p>
+                <h2 id="questionTitle">选择正确释义</h2>
+              </div>
+              <button class="icon-button" type="button" aria-label="朗读单词" id="soundButton"></button>
+            </div>
+
+            <div class="prompt-box">
+              <span class="prompt-main">adventure</span>
+              <span class="prompt-sub" id="promptSub">/ədˈventʃə/</span>
+            </div>
+
+            <div class="choice-grid">
+              <button class="choice correct" type="button">冒险；奇遇</button>
+              <button class="choice" type="button">安静；沉默</button>
+              <button class="choice" type="button">地址；住址</button>
+              <button class="choice wrong" type="button">机器；设备</button>
+            </div>
+
+            <div class="feedback" id="feedbackText">连续答对 5 题，奖励已点亮。</div>
+
+            <div class="actions">
+              <button class="secondary" type="button">换一题</button>
+              <button class="primary" type="button" id="mainAction">下一题</button>
+            </div>
+
+            <div class="asset-strip" id="assetStrip"></div>
+          </section>
+
+          <aside class="side-panel">
+            <div class="stat-tile"><span>连对</span><strong>5</strong></div>
+            <div class="stat-tile"><span>正确率</span><strong>92%</strong></div>
+            <div class="stat-tile"><span>错词</span><strong>3</strong></div>
+            <div class="stat-tile"><span>本组</span><strong>19/30</strong></div>
+            <div class="stat-tile"><span>强化</span><strong>7</strong></div>
+            <div class="reward-box">
+              <p class="eyebrow">奖励槽</p>
+              <div class="reward-line">
+                <div class="reward-icon" id="rewardIcon" aria-hidden="true"></div>
+                <div>
+                  <strong id="rewardTitle">获得星星奖励</strong>
+                  <span id="rewardDetail">完成本组练习后出现。</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const svg = {
+        default: {
+          brand: '<svg viewBox="0 0 48 48"><path fill="#ffc943" d="m24 5 5 13 14 1-11 9 4 14-12-8-12 8 4-14-11-9 14-1z"/></svg>',
+          sound: '<svg viewBox="0 0 48 48"><path fill="currentColor" d="M9 19h9l12-10v30L18 29H9z"/><path fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" d="M35 18c4 4 4 8 0 12"/></svg>',
+          reward: '<svg viewBox="0 0 48 48"><path fill="#ffc943" d="m24 5 5 13 14 1-11 9 4 14-12-8-12 8 4-14-11-9 14-1z"/></svg>',
+          assets: [
+            ["角色", "学习者", "M24 8a15 15 0 0 1 15 15v12H9V23A15 15 0 0 1 24 8z"],
+            ["怪物", "错词影", "M11 28c0-14 26-14 26 0 8 2 7 12-2 12H13c-9 0-10-10-2-12z"],
+            ["工具", "发音键", "M9 19h9l12-10v30L18 29H9z"],
+            ["奖励", "星章", "m24 5 5 13 14 1-11 9 4 14-12-8-12 8 4-14-11-9 14-1z"]
+          ]
+        },
+        "wild-kingdom": {
+          brand: '<svg viewBox="0 0 48 48"><rect x="12" y="6" width="24" height="36" rx="6" fill="#91a28a"/><path fill="#33a58d" d="m24 15 8 9-8 9-8-9z"/><path fill="none" stroke="#24472f" stroke-width="3" d="M17 12h14M17 36h14"/></svg>',
+          sound: '<svg viewBox="0 0 48 48"><path fill="#f3bd4f" d="M10 22c11-8 18-8 28 0-4 8-8 13-14 19-6-6-10-11-14-19z"/><path fill="none" stroke="#24472f" stroke-width="3" d="M10 22h28M24 22v19"/></svg>',
+          reward: '<svg viewBox="0 0 48 48"><path fill="#f3bd4f" d="M24 6c10 8 15 17 12 27-4 7-20 7-24 0C9 23 14 14 24 6z"/><path fill="none" stroke="#24472f" stroke-width="3" d="M24 12v24M17 24h14"/></svg>',
+          assets: [
+            ["角色", "荒野学徒", "M24 8c10 0 17 8 17 19v10H7V27C7 16 14 8 24 8z"],
+            ["怪物", "营地小怪", "M13 18 24 8l14 8 4 19-10 8H17L7 35z"],
+            ["工具", "符文石板", "M15 8h18a5 5 0 0 1 5 5v22a5 5 0 0 1-5 5H15a5 5 0 0 1-5-5V13a5 5 0 0 1 5-5z"],
+            ["奖励", "精力果", "M24 6c10 8 15 17 12 27-4 7-20 7-24 0C9 23 14 14 24 6z"]
+          ]
+        },
+        "ember-fellowship": {
+          brand: '<svg viewBox="0 0 48 48"><path fill="#e8b75a" d="M24 6c16 8 20 20 14 34H10C4 26 8 14 24 6z"/><path fill="none" stroke="#342820" stroke-width="3" d="M13 32h22M24 10v30M17 20l14 14"/></svg>',
+          sound: '<svg viewBox="0 0 48 48"><path fill="#d9823b" d="M25 5c8 11 12 20 4 29 8 4 10 9 7 14H12c-3-5-1-10 7-14-8-9-4-18 6-29z"/></svg>',
+          reward: '<svg viewBox="0 0 48 48"><path fill="#e2b65f" d="M10 10h28l5 24-19 10L5 34z"/><path fill="none" stroke="#342820" stroke-width="3" d="M16 19h17M18 28h13M24 10v31"/></svg>',
+          assets: [
+            ["角色", "斗篷学习者", "M24 7c12 6 18 17 15 34H9C6 24 12 13 24 7z"],
+            ["怪物", "暗影面具", "M13 15 24 7l13 8 4 19-10 9H17L7 34z"],
+            ["工具", "远征地图", "M8 11h32l4 27-20 5-20-5z"],
+            ["奖励", "火种徽章", "M25 5c8 11 12 20 4 29 8 4 10 9 7 14H12c-3-5-1-10 7-14-8-9-4-18 6-29z"]
+          ]
+        },
+        "pocket-future": {
+          brand: '<svg viewBox="0 0 48 48"><circle cx="24" cy="22" r="17" fill="#2b91d9"/><circle cx="24" cy="25" r="12" fill="#fff"/><path fill="none" stroke="#1c3144" stroke-width="3" d="M18 24h3M27 24h3M19 31c4 3 7 3 10 0"/><path fill="#ffd24f" d="M20 39h8v4h-8z"/></svg>',
+          sound: '<svg viewBox="0 0 48 48"><circle cx="24" cy="23" r="15" fill="#f35b58"/><path fill="none" stroke="#1c3144" stroke-width="4" d="M14 23h20M24 13v20"/></svg>',
+          reward: '<svg viewBox="0 0 48 48"><path fill="#ffd24f" d="m24 5 5 13 14 1-11 9 4 14-12-8-12 8 4-14-11-9 14-1z"/><path fill="none" stroke="#1c3144" stroke-width="3" d="M24 16v15M17 23h14"/></svg>',
+          assets: [
+            ["角色", "口袋伙伴", "M24 6a18 18 0 0 1 18 18c0 10-8 18-18 18S6 34 6 24 14 6 24 6z"],
+            ["怪物", "错词小影", "M12 24c5-14 29-14 34 0 5 7 0 16-9 16H13C4 40 0 31 12 24z"],
+            ["工具", "记忆灯", "M14 14h20l5 18H9zM18 32h12v9H18z"],
+            ["奖励", "鼓励星", "m24 5 5 13 14 1-11 9 4 14-12-8-12 8 4-14-11-9 14-1z"]
+          ]
+        }
+      };
+
+      const copy = {
+        default: {
+          eyebrow: "New Concept Words",
+          title: "新概念单词练习",
+          missions: [["今日复习", "12"], ["学新词", "8"], ["错词强化", "3"], ["自由练习", "95"]],
+          meta: "Book 1 · Lesson 12",
+          question: "选择正确释义",
+          feedback: "连续答对 5 题，奖励已点亮。",
+          reward: ["获得星星奖励", "完成本组练习后出现。"],
+          action: "下一题"
+        },
+        "wild-kingdom": {
+          eyebrow: "Trial Log",
+          title: "荒野遗迹试炼",
+          missions: [["今日试炼", "12"], ["新词采集", "8"], ["弱点营地", "3"], ["自由探索", "95"]],
+          meta: "遗迹手册 · 第 12 课",
+          question: "点亮正确符文",
+          feedback: "连胜 5 次，试炼星石已放入背包。",
+          reward: ["获得试炼星石", "完成本组练习后解锁新道具。"],
+          action: "继续试炼"
+        },
+        "ember-fellowship": {
+          eyebrow: "Quest Journal",
+          title: "远征词汇日志",
+          missions: [["今日远征", "12"], ["新词招募", "8"], ["暗影清理", "3"], ["自由巡游", "95"]],
+          meta: "远征地图 · 第 12 课",
+          question: "选择正确译文",
+          feedback: "旅队士气提升，火种徽章已记录。",
+          reward: ["获得火种徽章", "完成本组练习后写入远征日志。"],
+          action: "继续远征"
+        },
+        "pocket-future": {
+          eyebrow: "Pocket Lab",
+          title: "口袋未来练习站",
+          missions: [["今日充能", "12"], ["新词胶囊", "8"], ["错词修理", "3"], ["自由实验", "95"]],
+          meta: "学习终端 · 第 12 课",
+          question: "启动正确答案",
+          feedback: "伙伴能量 +5，鼓励星章已弹出。",
+          reward: ["获得鼓励星章", "完成本组练习后加入口袋收藏。"],
+          action: "继续充能"
+        }
+      };
+
+      const brandMark = document.getElementById("brandMark");
+      const soundButton = document.getElementById("soundButton");
+      const rewardIcon = document.getElementById("rewardIcon");
+      const missionPanel = document.getElementById("missionPanel");
+      const assetStrip = document.getElementById("assetStrip");
+
+      function iconPath(path, fill) {
+        return `<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="${fill}" d="${path}"/><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M18 24h4M27 24h4M19 33c4 3 7 3 10 0"/></svg>`;
+      }
+
+      function setTheme(theme) {
+        document.body.dataset.theme = theme;
+        document.querySelectorAll("[data-set-theme]").forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.setTheme === theme));
+        });
+        const themeSvg = svg[theme];
+        const themeCopy = copy[theme];
+        brandMark.innerHTML = themeSvg.brand;
+        soundButton.innerHTML = themeSvg.sound;
+        rewardIcon.innerHTML = themeSvg.reward;
+        document.getElementById("themeEyebrow").textContent = themeCopy.eyebrow;
+        document.getElementById("themeTitle").textContent = themeCopy.title;
+        document.getElementById("questionMeta").textContent = themeCopy.meta;
+        document.getElementById("questionTitle").textContent = themeCopy.question;
+        document.getElementById("feedbackText").textContent = themeCopy.feedback;
+        document.getElementById("rewardTitle").textContent = themeCopy.reward[0];
+        document.getElementById("rewardDetail").textContent = themeCopy.reward[1];
+        document.getElementById("mainAction").textContent = themeCopy.action;
+        missionPanel.innerHTML = themeCopy.missions.map((item, index) => `
+          <button class="mission-card ${index === 0 ? "active" : ""}" type="button">
+            <span>${item[0]}</span>
+            <strong>${item[1]}</strong>
+          </button>
+        `).join("");
+        assetStrip.innerHTML = themeSvg.assets.map((item) => `
+          <div class="asset-card">
+            <div class="asset-icon">${iconPath(item[2], "var(--gold)")}</div>
+            <div>
+              <strong>${item[0]}</strong>
+              <span>${item[1]}</span>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      document.querySelectorAll("[data-set-theme]").forEach((button) => {
+        button.addEventListener("click", () => setTheme(button.dataset.setTheme));
+      });
+
+      setTheme("default");
+    </script>
+  </body>
+</html>
+
